@@ -25,6 +25,7 @@ router.post('/start', function (req, res, next) {
     }, (response) => {
       var data = '';
       response.on('data', (chunk) => {
+        console.log("gotchunk");
         data += chunk;
       });
 
