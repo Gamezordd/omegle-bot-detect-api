@@ -32,6 +32,8 @@ router.post('/start', function (req, res, next) {
       // Ending the response 
       response.on('end', () => {
         data = JSON.parse(data.toString());
+          console.log("data: ", data);
+
         if (data.events?.[0][0] === 'error') {
           res.status(400).send({ events: data.events });
         } else {
