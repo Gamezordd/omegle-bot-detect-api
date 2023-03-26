@@ -210,6 +210,40 @@ router.post('/disconnect', (req,res,next) => {
   }
 })
 
+router.post('/test', (req,res,next) => {
+  const { origin, host, id } = req.body;
+  const reqBody = `${encodeURI("id")}=${encodeURI(id)}}`
+
+  try {
+    const x = https.request({
+      host: "www.google.com",
+      method:"POST",
+      path:"/",
+      protocol:"https:",
+      headers: {
+        "Host": host,
+        "Origin": origin,
+        "Content-Length": reqBody?.length ?? 0,
+      }}, (response) => {
+        var data = '';
+
+        response.on('data', (chunk) => {
+          if(chunk){
+            data += chunk;
+          }
+        });
+        response.on('end', () => {
+          return res.status(200).send(data);
+        });
+      });
+      x.write(reqBody);
+      x.end();
+  } catch (error) {
+    console.log("error: ", error);
+    return res.status(400).send(error)
+  }
+})
+
 // router.post('/events2', (req, res,next) => {
 //   const { origin, host, id } = req.body;
 //   const reqBody = JSON.stringify({id});
