@@ -23,6 +23,7 @@ router.post('/start', function (req, res, next) {
         "Origin": origin
       },
     }, (response) => {
+      console.log(req);
       var data = '';
       response.on('data', (chunk) => {
         console.log("gotchunk", JSON.parse(chunk));
@@ -41,6 +42,11 @@ router.post('/start', function (req, res, next) {
           res.status(200).send({ clientID: data.clientID, events: data.events });
         }
       });
+      response.on("error", error => {
+        console.log(
+          "error: ", error
+        )
+      })
     }).on("error", (err) => {
       console.log("Error: ", err)
       res.send({ message: err });
@@ -49,6 +55,7 @@ router.post('/start', function (req, res, next) {
     console.log("err: ", error);
     res.send({ message: error });
   }
+  
 
 });
 
