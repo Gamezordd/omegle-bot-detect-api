@@ -23,7 +23,6 @@ router.post('/start', function (req, res, next) {
         "Origin": origin
       },
     }, (response) => {
-      console.log(req);
       var data = '';
       response.on('data', (chunk) => {
         console.log("gotchunk", JSON.parse(chunk));
@@ -34,8 +33,6 @@ router.post('/start', function (req, res, next) {
       // Ending the response 
       response.on('end', () => {
         data = JSON.parse(data.toString());
-          console.log("data: ", data);
-
         if (data.events?.[0][0] === 'error') {
           res.status(400).send({ events: data.events });
         } else {
