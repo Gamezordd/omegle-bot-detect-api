@@ -5,6 +5,39 @@ const http = require('http');
 const axios = require('axios');
 const client = new axios.Axios();
 
+router.post('/check', (req,res,next) => {
+  const { origin, host} = req.body;
+
+  try {
+    const x = http.request({
+      host,
+      method:"POST",
+      path:"/check",
+      protocol:"http:",
+      headers: {
+        "Host": host,
+        "Origin": origin,
+      }}, (response) => {
+        var data = '';
+        
+
+        response.on('data', (chunk) => {
+          if(chunk){
+            data += chunk;
+          }
+        });
+        response.on('end', () => {
+          console.log("send: ", data);
+          return res.status(200).send(data);
+        });
+      });
+      x.end();
+  } catch (error) {
+    console.log("error: ", error);
+    return res.status(400).send(error)
+  }
+})
+
 /* GET home page. */
 router.post('/start', function (req, res, next) {
   const { randid, cc, origin, host } = req.body;
