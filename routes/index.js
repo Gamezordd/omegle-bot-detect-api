@@ -19,7 +19,6 @@ router.post('/start', function (req, res, next) {
       // pathname:"start",
       // search:'caps=recaptcha2,t3&firstevents=1&spid=&randid=3ABQC5LE&cc=0dc6f6509372be05107a969b077eedb5f905d1b3&lang=en',
       headers: {
-        "Host": host,
         "Origin": origin
       },
     }, (response) => {
@@ -217,7 +216,7 @@ router.post('/test', (req,res,next) => {
   try {
     const x = https.request({
       host: "www.google.com",
-      method:"POST",
+      method:"GET",
       path:"/",
       protocol:"https:",
       headers: {
